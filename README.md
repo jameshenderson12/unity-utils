@@ -1,4 +1,4 @@
-# unity-utils
+# My Unity Development Library #
 
 This repo was initially set up as a Unity -> GitHub integration test.
 
