@@ -5,39 +5,36 @@ using UnityEngine;
 public class CameraSwitcher : MonoBehaviour
 {
     [SerializeField]
-    private Camera[] cameras = new Camera[4]; // Various cameras defined
+    private Camera[] cameras = new Camera[3];
+    int activeCameraIndex = 0;
 
-    int activeCameraIdx = 0;
-
-    // Use this for initialization
-    void Start ()
+    void Start()
     {
-        // Initial setup - enable the first one, disable the others
+        for (int i = 0; i < cameras.Length; i++) {
+            cameras[i].enabled = false;
+        }
         cameras[0].enabled = true;
-        cameras[1].enabled = false;
-        cameras[2].enabled = false;
-        cameras[3].enabled = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
-      // This cycles the cameras forward on space. Replace with whatever button you want.
-      if (Input.GetKeyDown(KeyCode.Space))
-        SwitchCameras();
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+            SwitchCamera(1);
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+            SwitchCamera(-1);
     }
 
-    private void SwitchCameras()
+    private void SwitchCamera(int updown)
     {
-        // Disable the current camera
-        cameras[activeCameraIdx].enabled = false;
-
-        // Increment the index of the active camera
-        // "%" is the modulo-operator. It returns division remainder, and causes activeCameraIdx to cycle between 0 and 3
-        activeCameraIdx++;
-        activeCameraIdx %= 5;
-
-        // Enable the new one
-        cameras[activeCameraIdx].enabled = true;
+        cameras[activeCameraIndex].enabled = false;
+        activeCameraIndex= activeCameraIndex + updown;
+        if (activeCameraIndex >= cameras.Length)
+        {
+            activeCameraIndex = 0;
+        } else if (activeCameraIndex < 0)
+        {
+            activeCameraIndex = cameras.Length-1;
+        }
+        cameras[activeCameraIndex].enabled = true;
     }
 }
